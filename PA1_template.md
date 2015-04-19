@@ -17,7 +17,7 @@ Loading the data:
 #Unzips the .zip file that was provided and reads it 
 unzip("./activity.zip")
 raw_data<- read.csv(file = "./activity.csv", header = T)
-summary(raw_data)
+print(summary(raw_data))
 ```
 
 ```
@@ -66,6 +66,19 @@ hist(x = steps_summary$steps,
 #Calculate the mean and median of total number of steps per day
 mean<- round(mean(x = steps_summary$steps, na.rm = T),1)
 median<- round(median(x = steps_summary$steps, na.rm = T),1)
+print(mean)
+```
+
+```
+## [1] 10766.2
+```
+
+```r
+print(median)
+```
+
+```
+## [1] 10765
 ```
 ![plot of hist](figure/hist-1.png)
 
@@ -93,6 +106,21 @@ plot(steps_summary_interval, type = 'l',
 max_index<- which.max(x = steps_summary_interval[,2])
 max_steps<- steps_summary_interval[max_index,2]
 max_interval<- steps_summary_interval[max_index,1]
+
+
+print(max_steps)
+```
+
+```
+## [1] 206.1698
+```
+
+```r
+print(max_interval)
+```
+
+```
+## [1] 835
 ```
 ![plot of timeseries](figure/timeseries-1.png)
 
@@ -135,7 +163,7 @@ hist(x = filled_steps_summary$steps,
 mean<- round(mean(x = filled_steps_summary$steps),1)
 median<- round(median(x = filled_steps_summary$steps),1)
 
-mean
+print(mean)
 ```
 
 ```
@@ -143,7 +171,7 @@ mean
 ```
 
 ```r
-median
+print(median)
 ```
 
 ```
@@ -198,3 +226,7 @@ xyplot(steps ~ interval | weekday, data = steps_summary_interval,
 ![plot of weekday](figure/weekday-1.png) 
 
 As we observe, there are some differences in the number of steps when we break data by weekdays and weekend days. 
+
+## Reproduction of this assessment's results
+
+The raw data is available in this repository and all code for processing/plotting the data is provided as seen in each of the previous steps.
