@@ -62,8 +62,6 @@ hist(x = steps_summary$steps,
      ylab = "Frequency", col = "grey")
 ```
 
-![](./figure/hist-1.png) 
-
 ```r
 #Calculate the mean and median of total number of steps per day
 mean<- round(mean(x = steps_summary$steps, na.rm = T),1)
@@ -89,8 +87,6 @@ plot(steps_summary_interval, type = 'l',
     xlab = '5 Minute Time Interval',
     ylab = 'Average Number of Steps')
 ```
-
-![](./figure/timeseries-1.png) 
 
 ```r
 #Discover the interval wich contains the max number of steps
@@ -133,8 +129,6 @@ hist(x = filled_steps_summary$steps,
      xlab = "Number of steps", 
      ylab = "Frequency", col = "grey")
 ```
-
-![](./figure/na_filling-1.png) 
 
 ```r
 #Calculate the mean and median of total number of steps per day
@@ -200,8 +194,6 @@ xyplot(steps ~ interval | weekday, data = steps_summary_interval,
       ylab = 'Number of Steps',
       layout = c(1,2))
 ```
-
-![](./figure/weekday-1.png) 
 
 ![plot of weekday](figure/weekday-1.png) 
 
