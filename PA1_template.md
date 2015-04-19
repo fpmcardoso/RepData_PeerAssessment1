@@ -1,27 +1,34 @@
----
-title: "Reproducible Research: Peer Assessment 1"
-output: 
-  html_document:
-    keep_md: true
----
+# Reproducible Research: Peer Assessment 1
 
 
 ## Loading and preprocessing the data
 
 Clearing the R environment:
-```{r setup}
 
+```r
 #Removes all env variables
 rm(list=ls(all=TRUE))
 ```
 
 Loading the data:
 
-```{r load, echo = TRUE}
+
+```r
 #Unzips the .zip file that was provided and reads it 
 unzip("./activity.zip")
 raw_data<- read.csv(file = "./activity.csv", header = T)
 summary(raw_data)
+```
+
+```
+##      steps                date          interval     
+##  Min.   :  0.00   2012-10-01:  288   Min.   :   0.0  
+##  1st Qu.:  0.00   2012-10-02:  288   1st Qu.: 588.8  
+##  Median :  0.00   2012-10-03:  288   Median :1177.5  
+##  Mean   : 37.38   2012-10-04:  288   Mean   :1177.5  
+##  3rd Qu.: 12.00   2012-10-05:  288   3rd Qu.:1766.2  
+##  Max.   :806.00   2012-10-06:  288   Max.   :2355.0  
+##  NA's   :2304     (Other)   :15840
 ```
 
 The variables included in this dataset are:
@@ -42,7 +49,8 @@ Ignoring missing values for now, we will:
 2. Make a histogram of the total number of steps taken each day
 3. Calculate and report the mean and median of the total number of steps taken per day
 
-```{r hist, echo = TRUE, fig.path="./figure/"}
+
+```r
 #Total of steps per day
 steps_summary<- aggregate(steps ~ date, data = raw_data, sum)
 
@@ -52,11 +60,14 @@ hist(x = steps_summary$steps,
      main = "Histogram  - Total number of steps taken each day",
      xlab = "Number of steps", 
      ylab = "Frequency", col = "grey")
+```
 
+![](./figure/hist-1.png) 
+
+```r
 #Calculate the mean and median of total number of steps per day
 mean<- round(mean(x = steps_summary$steps, na.rm = T),1)
 median<- round(median(x = steps_summary$steps, na.rm = T),1)
-
 ```
 ![plot of hist](figure/hist-1.png)
 
@@ -67,8 +78,8 @@ Ignoring missing values, we will:
 1. Make a time series plot (i.e. type = "l") of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all days (y-axis)
 2. Discover which 5-minute interval, on average across all the days in the dataset contains the maximum number of steps.
 
-```{r timeseries, echo = TRUE, fig.path="./figure/"}
 
+```r
 #Summarize data
 steps_summary_interval<- aggregate(x = raw_data$steps, by = list(raw_data$interval), FUN = mean, na.rm = T)
 
@@ -77,12 +88,15 @@ plot(steps_summary_interval, type = 'l',
     main = 'Average steps by interval',
     xlab = '5 Minute Time Interval',
     ylab = 'Average Number of Steps')
-        
+```
+
+![](./figure/timeseries-1.png) 
+
+```r
 #Discover the interval wich contains the max number of steps
 max_index<- which.max(x = steps_summary_interval[,2])
 max_steps<- steps_summary_interval[max_index,2]
 max_interval<- steps_summary_interval[max_index,1]
-
 ```
 ![plot of timeseries](figure/timeseries-1.png)
 
@@ -94,10 +108,17 @@ We will:
 2. Create a new dataset that is equal to the original dataset but with the missing data filled in. We will use the interval's average number of steps to replace the NAs
 3. Make a histogram of the total number of steps taken each day and Calculate and report the mean and median total number of steps taken per day
 
-```{r na_filling, echo=TRUE, fig.path="./figure/"}
+
+```r
 #Calculate the number of rows with NAs
 sum(is.na(raw_data$steps))
+```
 
+```
+## [1] 2304
+```
+
+```r
 #Create a new dataset with filled values
 filled_set <- raw_data
 filled_set[is.na(filled_set)]<- ave(filled_set$steps, filled_set$interval,FUN = function(x) mean(x, na.rm = TRUE))[is.na(filled_set$steps)]
@@ -111,15 +132,29 @@ hist(x = filled_steps_summary$steps,
      main = "Histogram  - Total number of steps taken each day",
      xlab = "Number of steps", 
      ylab = "Frequency", col = "grey")
+```
 
+![](./figure/na_filling-1.png) 
+
+```r
 #Calculate the mean and median of total number of steps per day
 mean<- round(mean(x = filled_steps_summary$steps),1)
 median<- round(median(x = filled_steps_summary$steps),1)
 
 mean
-median
+```
 
-````
+```
+## [1] 10766.2
+```
+
+```r
+median
+```
+
+```
+## [1] 10766.2
+```
 ![plot of na_filling](figure/na_filling-1.png)
 
 
@@ -133,7 +168,8 @@ We will:
 
 2. Make a panel plot containing a time series plot (i.e. type = "l") of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all weekday days or weekend days (y-axis). 
 
-```{r weekday,  echo=TRUE, fig.path="./figure/"}
+
+```r
 #Add the day of the week variable to the dataset
 raw_data$day<- weekdays(as.Date(raw_data$date))
 
@@ -163,8 +199,9 @@ xyplot(steps ~ interval | weekday, data = steps_summary_interval,
       xlab = 'Interval',
       ylab = 'Number of Steps',
       layout = c(1,2))
-
 ```
+
+![](./figure/weekday-1.png) 
 
 ![plot of weekday](figure/weekday-1.png) 
 
